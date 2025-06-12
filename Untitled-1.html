@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Feliz Dia dos Namorados 💘</title>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <link rel="icon" href="image-removebg-preview.png" type="image/x-icon" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #800000, #800000);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 127vh;
+      text-align: center;
+      position: relative;
+
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin: 0.5rem;
+    }
+    h2 {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+    }
+    .contador {
+      font-size: 1.5rem;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 1rem 2rem;
+      border-radius: 20px;
+      margin-bottom: 2rem;
+    }
+    .footer {
+      position: absolute;
+      bottom: 20px;
+      font-size: 0.9rem;
+    }
+    .botoes {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 18px;
+      cursor: pointer;
+      z-index: 1;
+      border: none;
+      border-radius: 8px;
+      background-color: #0e9637;
+      color: white;
+      transition: background-color 0.3s ease;
+    }
+    button:hover:not(:disabled) {
+      background-color: #a00000;
+    }
+    #nao.fujao {
+      position: fixed;
+      z-index: 1000;
+    }
+    #entrada {
+      text-align: center;
+      padding-top: 100px;
+      max-width: 700px;
+      margin: auto;
+    }
+    .regras {
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 15px;
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      text-align: left;
+      color: #fff;
+    }
+    .regras ul {
+      padding-left: 20px;
+    }
+    .regras button {
+      background-color:rgb(39, 175, 62);
+      color: white;
+      font-size: 16px;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      margin-top: 20px;
+      border-radius: 8px;
+    }
+
+    .assinaturas-container {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .assinatura-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #000;
+    }
+
+    .assinatura-box canvas {
+      border: 1px solid #800000;
+      background-color: #fff;
+      border-radius: 4px;
+      cursor: crosshair;
+    }
+
+    .assinatura-box button {
+      margin-top: 10px;
+      width: 130px;
+      background-color: #800000;
+      color: white;
+      font-weight: 600;
+      border-radius: 6px;
+      transition: background-color 0.3s ease;
+    }
+    .assinatura-box button:hover {
+      background-color: #a00000;
+    }
+  </style>
+</head>
+<body>
+  <div id="entrada">
+    <h1>Clique para começar 💘</h1>
+    <div class="regras">
+      <h2>Regras para o relacionamento</h2>
+      <ul>
+        <li>01. Não discutir na frente das pessoas (família, amigos e desconhecidos).</li>
+        <li>02. Falar o que fez que lhe incomodou no mesmo dia (mesmo que o dia seja o melhor das nossas vidas).</li>
+        <li>03. Não descontar raiva, se não foi a pessoa que lhe causou isso.</li>
+        <li>04. Evitar chatear o parceiro(a) quando perceber que ele(a) está estressado(a).</li>
+        <li>05. Respeitar o parceiro(a) no sentido de brincadeiras quando estiver na frente de outras pessoas.</li>
+        <li>06. Ser 100% sincero e não mentir para agradar ou por achar que vai causar uma briga.</li>
+        <li>07. Amar eternamente o companheiro(no caso eu Felipe T. E Carmen Maria) </li>
+      </ul>
+      <button onclick="iniciar()">Aceito as regras e quero continuar 💘</button>
+
+      <h2>Assine abaixo para aceitar as regras:</h2>
+
+      <div class="assinaturas-container">
+        <!-- Assinatura 1 -->
+        <div class="assinatura-box">
+          <canvas id="signatureCanvas1" width="300" height="150"></canvas>
+          <button onclick="limparAssinatura(1)">Limpar</button>
+          <button onclick="salvarAssinatura(1)">Salvar Assinatura</button>
+          <div id="assinaturaSalva1" style="margin-top: 10px;"></div>
+        </div>
+
+        <!-- Assinatura 2 -->
+        <div class="assinatura-box">
+          <canvas id="signatureCanvas2" width="300" height="150"></canvas>
+          <button onclick="limparAssinatura(2)">Limpar</button>
+          <button onclick="salvarAssinatura(2)">Salvar Assinatura</button>
+          <div id="assinaturaSalva2" style="margin-top: 10px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="conteudo" style="display: none;">
+    <h1>💘 Feliz Dia dos Namorados 💘</h1>
+    <h2>Juntos desde 23/12/2024 14:07:26 👉👈</h2>
+
+    <div class="contador" id="contador">Carregando o tempo juntos...</div>
+
+    <h2>Já dissemos "Te amo" <span id="contadorTeAmo">0</span> vezes! 💘</h2>
+    <input type="file" id="arquivoTxt" accept=".txt" />
+    <div id="resultado" style="margin-top: 10px;"></div>
+
+    <h1>Você quer continuar para sempre?</h1>
+    <div class="botoes" id="botoes">
+      <button id="sim">Você</button>
+      <button id="nao">Não</button>
+    </div>
+
+    <div class="footer">Com todo o meu amor para você,amor da minha vida, minha alma gemea, minha namorada,minha esposizinha, o amor da minha vida, quem eu quero dividir minha vida,tudo que sempre sonhei, minha outra metade, meu segundo coração,mãe de minha filha luci,meu amorzinho,mãe da varcolac,pessoa que eu divido minhas tarde hoje e agora se quiser para sempre,minha denga,minha cheirosa,minha lindona,minha bobona,meu docinho,minha tudo,mi amoré,minha bordelinda,minha doidinha,minha maluquinha, a minha *-* ,se vc quiser para sempre ❤️</div>
+
+    <audio id="musica" loop>
+      <source src="Steven Universe - Amar Como Você [SEM NARRADOR] [5P_5_79nPuk].mp3" type="audio/mp3" />
+      Seu navegador não suporta o elemento de áudio.
+    </audio>
+  </div>
+
+  <script>
+    function iniciar() {
+      document.getElementById('entrada').style.display = 'none';
+      document.getElementById('conteudo').style.display = 'block';
+      const audio = document.getElementById('musica');
+      audio.play().catch(e => console.log("Autoplay bloqueado:", e));
+      atualizarContador(); 
+    }
+
+    function atualizarContador() {
+      const dataInicio = new Date(2024, 11, 23, 14, 7, 26);
+      const agora = new Date();
+      const diff = agora - dataInicio;
+
+      if (diff < 0) {
+        document.getElementById("contador").innerText = "Ainda não começamos! 💌";
+        return;
+      }
+
+      const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const horas = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutos = Math.floor((diff / (1000 * 60)) % 60);
+      const segundos = Math.floor((diff / 1000) % 60);
+
+      document.getElementById("contador").innerText =
+        `${dias} dias, ${horas} horas, ${minutos} minutos e ${segundos} segundos juntinhos 💖`;
+    }
+
+    let contadorInterval;
+
+    window.onload = () => {
+      const btnSim = document.getElementById("sim");
+      const btnNao = document.getElementById("nao");
+
+      let fugiu = false;
+
+      btnNao.addEventListener("mouseenter", () => {
+        const larguraJanela = window.innerWidth - btnNao.offsetWidth;
+        const alturaJanela = window.innerHeight - btnNao.offsetHeight;
+        const randomX = Math.random() * larguraJanela;
+        const randomY = Math.random() * alturaJanela;
+
+        btnNao.style.position = 'fixed';
+        btnNao.style.left = `${randomX}px`;
+        btnNao.style.top = `${randomY}px`;
+        fugiu = true;
+      });
+
+      btnNao.addEventListener("click", (e) => e.preventDefault());
+
+      btnSim.addEventListener("click", () => {
+        confetti({
+          particleCount: 250,
+          spread: 120,
+          origin: { y: 0.6 },
+        });
+
+        btnSim.innerText = "Te amo ❤️";
+        btnSim.disabled = true;
+      });
+
+      contadorInterval = setInterval(atualizarContador, 1000);
+
+      let contadorTeAmo = 0;
+
+      document.getElementById('arquivoTxt').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const leitor = new FileReader();
+        leitor.onload = function(e) {
+          const texto = e.target.result;
+          const matches = texto.match(/te amo/gi);
+          contadorTeAmo = matches ? matches.length : 0;
+          document.getElementById('contadorTeAmo').innerText = contadorTeAmo;
+          document.getElementById('resultado').innerText = `O texto contém "${contadorTeAmo}" vezes "te amo".`;
+        };
+        leitor.readAsText(file);
+      });
+      inicializarAssinatura(1);
+      inicializarAssinatura(2);
+    };
+
+    function inicializarAssinatura(num) {
+      const canvas = document.getElementById(`signatureCanvas${num}`);
+      const ctx = canvas.getContext('2d');
+      ctx.strokeStyle = "#800000";
+      ctx.lineWidth = 3;
+      ctx.lineCap = "round";
+
+      let desenhando = false;
+      let ultimoX = 0;
+      let ultimoY = 0;
+
+      canvas.addEventListener('mousedown', (e) => {
+        desenhando = true;
+        const rect = canvas.getBoundingClientRect();
+        ultimoX = e.clientX - rect.left;
+        ultimoY = e.clientY - rect.top;
+      });
+
+      canvas.addEventListener('mousemove', (e) => {
+        if (!desenhando) return;
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        ctx.beginPath();
+        ctx.moveTo(ultimoX, ultimoY);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+        ultimoX = x;
+        ultimoY = y;
+      });
+
+      window.addEventListener('mouseup', () => {
+        desenhando = false;
+      });
+
+      window[`limparAssinatura`] = function(num) {
+        const c = document.getElementById(`signatureCanvas${num}`);
+        const ctx = c.getContext('2d');
+        ctx.clearRect(0, 0, c.width, c.height);
+        document.getElementById(`assinaturaSalva${num}`).innerHTML = "";
+      };
+
+      window[`salvarAssinatura`] = function(num) {
+        const c = document.getElementById(`signatureCanvas${num}`);
+        const dados = c.toDataURL('image/png');
+
+        if (isCanvasBlank(c)) {
+          alert('Por favor, faça a assinatura antes de salvar.');
+          return;
+        }
+
+        const imgTag = `<img src="${dados}" alt="Assinatura ${num}" style="max-width: 300px; max-height: 150px; border: 1px solid #800000; border-radius: 5px;">`;
+        document.getElementById(`assinaturaSalva${num}`).innerHTML = imgTag;
+      };
+
+      function isCanvasBlank(cnv) {
+        const blank = document.createElement('canvas');
+        blank.width = cnv.width;
+        blank.height = cnv.height;
+        return cnv.toDataURL() === blank.toDataURL();
+      }
+    }
+  </script>
+</body>
+</html>
